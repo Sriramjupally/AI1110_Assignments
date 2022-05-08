@@ -39,5 +39,5 @@ plt.annotate((Roots[0],0),(Roots[0],0),(51.5,2))
 plt.annotate((Roots[1],0),(Roots[1],0),(-29,2))
 plt.legend()
 
-#plt.savefig("../Fig/_plot.png")
+plt.savefig("../Fig/_plot.png")
 plt.show()
