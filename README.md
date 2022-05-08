@@ -1,1 +1,1 @@
-# AI1110_Assignments
+To submit Assignments for AI1110 Course
