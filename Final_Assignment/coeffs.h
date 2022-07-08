@@ -229,6 +229,41 @@ return temp;
 //End function for calculating the mean of random numbers
 
 //Defining the function for generating Gaussian random numbers
+
+
+double mean_sqr(char *a)
+{
+int i=0;
+FILE *fp;
+double x, temp=0.0;
+
+fp = fopen(a,"r");
+//get numbers from file
+while(fscanf(fp,"%lf",&x)!=EOF)
+{
+//Count numbers in file
+i=i+1;
+//Add all numbers in file
+temp = temp+(x*x) ;
+}
+fclose(fp);
+temp = temp/i;
+return temp;
+
+}
+
+
+
+double var(char *a)
+{
+double temp = 0;
+
+temp = mean_sqr(a) - mean(a)*mean(a);
+
+return temp;
+
+}
+
 void gaussian(char *str, int len)
 {
 int i,j;
