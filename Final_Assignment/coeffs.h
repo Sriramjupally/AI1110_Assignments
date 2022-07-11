@@ -286,3 +286,23 @@ fclose(fp);
 
 }
 //End function for generating Gaussian random numbers
+
+
+void logaritham(char *str, int len)
+{
+int i,j;
+double temp;
+FILE *fp;
+
+fp = fopen(str,"w");
+//Generate numbers
+for (i = 0; i < len; i++)
+{
+temp= (-2)*log( 1 - (double)rand()/RAND_MAX);
+fprintf(fp,"%lf\n",temp);
+}
+
+
+fclose(fp);
+
+}
