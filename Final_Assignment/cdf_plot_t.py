@@ -1,63 +1,59 @@
 #Importing numpy, scipy, mpmath and pyplot
 import numpy as np
-import scipy 
 import matplotlib.pyplot as plt
 
+#if using termux
+#import subprocess
+#import shlex
+#end if
 
 
-maxrange=60
-maxlim=2.5
-x = np.linspace(-maxlim,maxlim,maxrange) #points on the x axis for practical
-x1 = np.linspace(-maxlim,maxlim,maxrange*2) #points on the x axis for theoretical
+
+x = np.linspace(-4,4,30)#points on the x axis
 simlen = int(1e6) #number of samples
 err = [] #declaring probability list
-pdf = [] #declaring pdf list
-
-
-randvar = np.loadtxt('tri.dat',dtype='double') # Data
-
-
-for i in range(0,maxrange):
+#randvar = np.random.normal(0,1,simlen)
+#randvar = np.loadtxt('uni.dat',dtype='double')
+#randvar = np.loadtxt('gau.dat',dtype='double')
+randvar = np.loadtxt('tri.dat', dtype='double')
+for i in range(0,30):
 	err_ind = np.nonzero(randvar < x[i]) #checking probability condition
 	err_n = np.size(err_ind) #computing the probability
 	err.append(err_n/simlen) #storing the probability values in a list
 
 	
-for i in range(0,maxrange-1):
-	test = (err[i+1]-err[i])/(x[i+1]-x[i])
-	pdf.append(test) #storing the pdf values in a list
-
-plt.plot(x[0:(maxrange-1)].T,pdf,'o')
-
+plt.plot(x.T,err,marker='o')#plotting the CDF
+plt.grid() #creating the grid
+plt.xlabel('$x$')
+plt.ylabel('$F_X(x)$')
 
 def func(x):
-	if (x<0):
+	if(x <= 0 ):
 		return 0
-	elif (x>=0 and x<1):
-		return x
-	elif (x>=1 and x<=2):
-		return 2-x
-	else:
-		return 0
+	if(x>0 and x<1):
+		return x*x/2
+	if(x>=1 and x<2):
+		return (1 - ((2-x)**2)/2)
+	if(x>=2):
+		return 1
 
 
-
+		
+# for i in range(30):
+# 	y.append(func(x[i]))
 vec_other_cdf = np.vectorize(func,otypes=[float])	
 
 plt.plot(x,vec_other_cdf(x),color='red')#plotting the CDF
-# plt.legend(["Numerical", "Theory"])
-
-# #plt.plot(x,func1(x),color='blue',linestyle='dashed')#plotting the CDF
-
-# for i in range(60):
-# 	y.append(func(x[i]))
-
-# plt.plot(x,y,color='red')#plotting the CDF
+plt.legend(["Numerical", "Theory"])
 
 
-plt.grid() #creating the grid
-plt.xlabel('$x_i$')
-plt.ylabel('$p_X(x_i)$')
-plt.legend(["Numerical","Theory"])
-
-plt.show()
+#if using termux
+#plt.savefig('../figs/uni_cdf.pdf')
+#plt.savefig('../figs/uni_cdf.eps')
+#subprocess.run(shlex.split("termux-open ../figs/uni_cdf.pdf"))
+#if using termux
+#plt.savefig('../figs/gauss_cdf.pdf')
+#plt.savefig('../figs/gauss_cdf.eps')
+#subprocess.run(shlex.split("termux-open ../figs/gauss_cdf.pdf"))
+#else
+plt.show() #opening the plot window
